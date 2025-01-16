@@ -4,7 +4,7 @@ package entity
 
 
 type Message struct {
-  table string
-  fields map[string]interface{}
-  values map[string]interface{}
+  Table string
+  Fields map[string]interface{}
+  Values map[string]interface{}
 }

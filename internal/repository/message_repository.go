@@ -8,12 +8,12 @@ type MessageRepositoryDB struct {
   DB *sql.DB
 }
 
-func (m *MessageRepositoryDB) SaveMessage(message *entity.Message) error {
-  query := fmt.Sprintf("INSERT INTO %s (", message.Table)
+func (m *MessageRepositoryDB) SaveMessage(message *Message) error {
+  query := fmt.Sprintf("INSERT INTO %s (", message.table)
   var fields []string
   var placeholders []string
   var values []interface{}
-  for field, value := range message.Values {
+  for field, value := range message.fields {
     fields = append(fields, field)
     placeholders = append(placeholders, "?")
     values = append(values, value)
