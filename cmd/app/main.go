@@ -23,7 +23,7 @@ func main() {
 		log.Fatalf("Erro ao carregar configuração: %v", err)
 	}
 
-	log.Printf("Configuração carregada:")
+	log.Printf("Configuração carregada com Sucesso")
 
 	// Inicializa o serviço de mensagens
 	messageService := service.MessageService{}
