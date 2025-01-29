@@ -9,16 +9,14 @@ import (
 )
 
 type Conf struct {
-	DBDriver           string `mapstructure:"DB_DIALECT"`
-	DBUser             string `mapstructure:"DB_USER"`
-	DBPassword         string `mapstructure:"DB_PASSWD"`
-	DBConnect          string `mapstructure:"DB_CONNECTSTRING"`
-	ServiceName        string
-	Port               int
-	Host               string
-	ENV_RABBITMQ       string `mapstructure:"ENV_RABBITMQ"`
-	ENV_REDIS_ADDR     string `mapstructure:"ENV_REDIS_ADDR"`
-	ENV_REDIS_PASSWORD string `mapstructure:"ENV_REDIS_PASSWORD"`
+	DBDriver     string `mapstructure:"DB_DIALECT"`
+	DBUser       string `mapstructure:"DB_USER"`
+	DBPassword   string `mapstructure:"DB_PASSWD"`
+	DBConnect    string `mapstructure:"DB_CONNECTSTRING"`
+	ServiceName  string
+	Port         int
+	Host         string
+	ENV_RABBITMQ string `mapstructure:"ENV_RABBITMQ"`
 }
 
 type Dados struct {

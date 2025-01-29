@@ -10,6 +10,7 @@ import (
 type Message struct {
 	table  string
 	fields map[string]interface{}
+	values map[string]interface{}
 }
 
 type MessageRepositoryDB struct {
