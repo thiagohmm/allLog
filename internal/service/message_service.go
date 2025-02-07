@@ -10,10 +10,10 @@ import (
 )
 
 type MessageService struct {
-	UseCase *usecase.LogUseCase // Changed to UseCase
+	UseCase *usecase.LogUseCase
 }
 
-func (s *MessageService) ListenToQueue(ctx context.Context, rabbitmqURL string, queueName string) { // Added context
+func (s *MessageService) ListenToQueue(ctx context.Context, rabbitmqURL string, queueName string) {
 	conn, err := rabbitmq.GetRabbitMQConnection(rabbitmqURL)
 	if err != nil {
 		log.Fatalf("failed to connect to RabbitMQ: %s", err)
@@ -41,7 +41,7 @@ func (s *MessageService) ListenToQueue(ctx context.Context, rabbitmqURL string, 
 	msgs, err := ch.Consume(
 		q.Name, // queue
 		"",     // consumer
-		false,  // auto-ack  <- Important: changed to false for proper error handling
+		false,  // auto-ack
 		false,  // exclusive
 		false,  // no-local
 		false,  // no-wait
@@ -57,20 +57,19 @@ func (s *MessageService) ListenToQueue(ctx context.Context, rabbitmqURL string, 
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
 
-			var dto usecase.DTOIN               // Use the correct DTO type
-			err := json.Unmarshal(d.Body, &dto) // Unmarshal the message body
-			if err != nil {
+			var dto usecase.DTOIN
+			if err := json.Unmarshal(d.Body, &dto); err != nil {
 				log.Printf("failed to unmarshal message: %s", err)
-				d.Nack(false, true) // Requeue the message if unmarshaling fails.
+				d.Nack(false, true) // Requeue the message
 				continue
 			}
 
-			err = s.UseCase.SaveLog(ctx, dto) // Call SaveLog on the UseCase
+			err = s.UseCase.UsecaseSaveLog(ctx, dto)
 			if err != nil {
 				log.Printf("failed to process message: %s", err)
-				d.Nack(false, true) // Requeue the message on error.
+				d.Nack(false, true) // Requeue on failure
 			} else {
-				d.Ack(false) // Acknowledge successful processing.
+				d.Ack(false) // Acknowledge success
 			}
 		}
 	}()

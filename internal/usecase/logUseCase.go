@@ -2,14 +2,17 @@ package usecase
 
 import (
 	"context"
+	"errors"
+	"fmt"
+	"log"
 
 	"github.com/thiagohmm/allLog/internal/entity"
 )
 
 type DTOIN struct {
-	Table  string                 `json:"table"`
-	Fields map[string]interface{} `json:"fields"`
-	Values map[string]interface{} `json:"values"`
+	Table  string        `json:"tabela"`
+	Fields []string      `json:"fields"`
+	Values []interface{} `json:"values"`
 }
 
 type LogUseCase struct {
@@ -17,20 +20,28 @@ type LogUseCase struct {
 }
 
 func NewLogUseCase(repo entity.MessageRepository) *LogUseCase {
+	if repo == nil {
+		log.Fatal("repository cannot be nil")
+	}
 	return &LogUseCase{
 		Repo: repo,
 	}
 }
 
-func (l *LogUseCase) SaveLog(ctx context.Context, dto DTOIN) error {
-	message := entity.Message{
-		Table:  dto.Table,
+func (l *LogUseCase) UsecaseSaveLog(ctx context.Context, dto DTOIN) error {
+	if ctx == nil {
+		return errors.New("context is nil")
+	}
+	if l.Repo == nil {
+		return errors.New("repository is nil")
+	}
+
+	message := &entity.Message{
+		Tabela: dto.Table,
 		Fields: dto.Fields,
 		Values: dto.Values,
 	}
-	err := l.Repo.SaveMessage(message)
-	if err != nil {
-		return err
-	}
-	return nil
+	fmt.Println("Processing message for table:", message.Tabela)
+
+	return l.Repo.SaveMessage(ctx, *message)
 }

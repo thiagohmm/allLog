@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	config "github.com/thiagohmm/integracaoThothConsumer/configuration"
+	config "github.com/thiagohmm/allLog/configuration"
 
 	go_ora "github.com/sijms/go-ora/v2"
 )

@@ -1,11 +1,7 @@
 package entity
 
-
-
-
-
-
+import "context"
 
 type MessageRepository interface {
-    SaveMessage(message Message) error
+	SaveMessage(ctx context.Context, message Message) error
 }
