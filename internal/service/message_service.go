@@ -60,14 +60,14 @@ func (s *MessageService) ListenToQueue(ctx context.Context, rabbitmqURL string, 
 			var dto usecase.DTOIN
 			if err := json.Unmarshal(d.Body, &dto); err != nil {
 				log.Printf("failed to unmarshal message: %s", err)
-				d.Nack(false, true) // Requeue the message
+				d.Nack(false, false) // Requeue the message
 				continue
 			}
 
 			err = s.UseCase.UsecaseSaveLog(ctx, dto)
 			if err != nil {
 				log.Printf("failed to process message: %s", err)
-				d.Nack(false, true) // Requeue on failure
+				d.Nack(false, false) // Requeue on failure
 			} else {
 				d.Ack(false) // Acknowledge success
 			}
