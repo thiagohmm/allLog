@@ -18,6 +18,7 @@ func (s *MessageService) ListenToQueue(ctx context.Context, rabbitmqURL string, 
 	if err != nil {
 		log.Fatalf("failed to connect to RabbitMQ: %s", err)
 	}
+	log.Printf("Conectado ao RabbitMQ com sucesso")
 	defer conn.Close()
 
 	ch, err := conn.Channel()

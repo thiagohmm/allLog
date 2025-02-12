@@ -6,7 +6,6 @@ require (
 	github.com/sijms/go-ora/v2 v2.8.23
 	github.com/spf13/viper v1.19.0
 	github.com/streadway/amqp v1.1.0
-	github.com/thiagohmm/integracaoThothConsumer v0.0.0-20250128005444-c7ced536ecc0
 )
 
 require (
