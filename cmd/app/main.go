@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/thiagohmm/allLog/configuration"
@@ -15,6 +16,7 @@ import (
 func LoadConfig() (*configuration.Conf, error) {
 	// Carrega as configurações do arquivo .env
 	cfg, err := configuration.LoadConfig("../../.env")
+	fmt.Println(cfg)
 	if err != nil {
 		log.Fatalf("Erro ao carregar configuração: %v", err)
 	}

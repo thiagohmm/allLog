@@ -62,11 +62,16 @@ func LoadConfig(path string) (*Conf, error) {
 	err := viper.ReadInConfig()
 	if err != nil {
 		fmt.Println("Não foi possível ler o arquivo .env, tentando variáveis de ambiente")
-	}
-
-	err = viper.Unmarshal(&cfg)
-	if err != nil {
-		panic(err)
+		cfg.DBDriver = viper.GetString("DB_DIALECT")
+		cfg.DBUser = viper.GetString("DB_USER")
+		cfg.DBPassword = viper.GetString("DB_PASSWD")
+		cfg.DBConnect = viper.GetString("DB_CONNECTSTRING")
+		cfg.ENV_RABBITMQ = viper.GetString("ENV_RABBITMQ")
+	} else {
+		err = viper.Unmarshal(&cfg)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	// Extrair os dados da string de conexão
